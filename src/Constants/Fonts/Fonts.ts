@@ -19,6 +19,10 @@ const TYPOGRAPHY = {
     fontFamily: FONT.medium,
     fontSize: 14,
   },
+  titleLarge: {
+    fontFamily: FONT.medium,
+    fontSize: 26,
+  },
 };
 
 export type TYPOGRAPHY_TYPE = keyof typeof TYPOGRAPHY;

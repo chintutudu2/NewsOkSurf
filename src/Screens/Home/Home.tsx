@@ -1,5 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import useTheme from '../../Hooks/useTheme';
 import NewsListItem from '../../Components/ListItems/NewsListItem';
 import {useAppStore} from '../../Zustand/Store';
@@ -35,7 +36,7 @@ const Home: React.FC<HomeProps> = React.memo(() => {
   }, [count]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['left', 'right', 'top']}>
       <FlashList
         data={articles}
         renderItem={({item}) => (
@@ -56,7 +57,7 @@ const Home: React.FC<HomeProps> = React.memo(() => {
         onEndReached={loadMoreArticle}
         onEndReachedThreshold={0.5}
       />
-    </View>
+    </SafeAreaView>
   );
 });
 
