@@ -8,14 +8,17 @@
     "ios:pro": "react-native run-ios --simulator='iPhone 16 Pro Max'",
     "ios:se": "react-native run-ios --simulator='iPhone SE'",
     "ios:device": "react-native run-ios --device=\"Suleman’s iPhone\"",
-    
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
   },
   "dependencies": {
+    "@shopify/flash-list": "^1.8.0",
+    "axios": "^1.9.0",
     "react": "19.0.0",
-    "react-native": "0.79.2"
+    "react-native": "0.79.2",
+    "react-native-fast-image": "^8.6.3",
+    "zustand": "^5.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
