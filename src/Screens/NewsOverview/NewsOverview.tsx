@@ -1,6 +1,6 @@
-import {StyleSheet, View} from 'react-native';
+import {Button, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo, useRef} from 'react';
 import FastImage from 'react-native-fast-image';
 import useTheme from '../../Hooks/useTheme';
 import AppText from '../../Components/Common/AppText/AppText';
@@ -11,6 +11,9 @@ import LinearGradientContainer from '../../Components/Common/Gradient/LinearGrad
 import {RouteProp} from '@react-navigation/native';
 import {AppStackNavigationParamList} from '../../Navigation/@types/AppStackNavigationParamList';
 import AppHeader from '../../Components/Common/Header/AppHeader';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import BottomSheet from '@gorhom/bottom-sheet';
+import {WebView} from 'react-native-webview';
 
 type NewsOverviewRouteProp = RouteProp<
   AppStackNavigationParamList,
@@ -39,65 +42,86 @@ const NewsOverview: React.FC<Props> = React.memo(({route}: Props) => {
     return;
   }
 
+  const sheetRef = useRef<BottomSheet>(null);
+
+  const snapPoints = useMemo(() => ['86%'], []);
+
   const newsAuthor = authors[0]?.name;
   const date = useMemo(() => utcToDateString(published_at), [published_at]);
   const dateTime = useMemo(() => utcToDateTimeString(updated_at), [updated_at]);
 
+  const handlePresentModalPress = useCallback(() => {
+    sheetRef.current?.expand();
+  }, []);
+
   return (
-    <SafeAreaView style={styles.container} edges={['left', 'right']}>
-      <AppHeader isFloating hasBack />
-      <View style={styles.imageContainer}>
-        <FastImage
-          style={styles.image}
-          source={{
-            uri: image_url,
-            priority: FastImage.priority.high,
-          }}
-          resizeMode={FastImage.resizeMode.cover}
-        />
-        <LinearGradientContainer colors1="black0" colors2="black60">
-          <View style={styles.headingContainer}>
-            <ChipTag text={news_site} />
-            <AppText variant="titleLarge" color="white" numberOfLines={3}>
-              {title}
-            </AppText>
-            <View style={styles.subHeadingContainer}>
-              {newsAuthor && (
-                <AppText variant="regular" color="white">
-                  {newsAuthor}
-                </AppText>
-              )}
-              {newsAuthor && date && (
-                <AppText variant="regular" color="white">
-                  •
-                </AppText>
-              )}
-              {date && (
-                <AppText variant="regular" color="white">
-                  {date}
-                </AppText>
-              )}
+    <GestureHandlerRootView style={styles.container}>
+      <SafeAreaView style={styles.container} edges={['left', 'right']}>
+        <AppHeader isFloating hasBack />
+        <View style={styles.imageContainer}>
+          <FastImage
+            style={styles.image}
+            source={{
+              uri: image_url,
+              priority: FastImage.priority.high,
+            }}
+            resizeMode={FastImage.resizeMode.cover}
+          />
+          <LinearGradientContainer colors1="black0" colors2="black60">
+            <View style={styles.headingContainer}>
+              <ChipTag text={news_site} />
+              <AppText variant="titleLarge" color="white" numberOfLines={3}>
+                {title}
+              </AppText>
+              <View style={styles.subHeadingContainer}>
+                {newsAuthor && (
+                  <AppText variant="regular" color="white">
+                    {newsAuthor}
+                  </AppText>
+                )}
+                {newsAuthor && date && (
+                  <AppText variant="regular" color="white">
+                    •
+                  </AppText>
+                )}
+                {date && (
+                  <AppText variant="regular" color="white">
+                    {date}
+                  </AppText>
+                )}
+              </View>
             </View>
-          </View>
-          <View style={styles.emptyContainer} />
-        </LinearGradientContainer>
-      </View>
-      <View style={styles.content}>
-        <View style={styles.updatedAtContainer}>
-          <AppText variant="light" color="outline">
-            Updated at
-          </AppText>
-          {dateTime && (
-            <AppText variant="light" color="outline">
-              {dateTime}
-            </AppText>
-          )}
+            <View style={styles.emptyContainer} />
+          </LinearGradientContainer>
         </View>
-        <AppText color="black" variant="regular">
-          {summary}
-        </AppText>
-      </View>
-    </SafeAreaView>
+        <View style={styles.content}>
+          <View style={styles.updatedAtContainer}>
+            <AppText variant="light" color="outline">
+              Updated at
+            </AppText>
+            {dateTime && (
+              <AppText variant="light" color="outline">
+                {dateTime}
+              </AppText>
+            )}
+          </View>
+          <AppText color="black" variant="regular">
+            {summary}
+          </AppText>
+          <Button title="Read more" onPress={handlePresentModalPress} />
+        </View>
+        <BottomSheet
+          ref={sheetRef}
+          index={-1}
+          snapPoints={snapPoints}
+          enableDynamicSizing={false}
+          enablePanDownToClose={true}
+          animateOnMount={false}
+          containerStyle={{zIndex: 99}}>
+          <WebView source={{uri: url}} />
+        </BottomSheet>
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 });
 

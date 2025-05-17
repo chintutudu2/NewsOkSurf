@@ -30,7 +30,7 @@ const useStyles = ({isFloating}: {isFloating: boolean}) => {
     container: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      zIndex: 9999,
+      zIndex: 9,
       position: isFloating ? 'absolute' : 'relative',
       top: SPACING.X14,
       width: '100%',
