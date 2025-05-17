@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useMemo} from 'react';
 import FastImage from 'react-native-fast-image';
 import {SPACING} from '../../Constants/Spacing/Spacing';
@@ -11,16 +11,17 @@ interface NewsListItemProps {
   newsTitle?: string;
   newsAuthor?: string;
   publishedAt?: string;
+  onPress?: () => void;
 }
 
 const NewsListItem: React.FC<NewsListItemProps> = React.memo(
-  ({imageUri, newsSite, newsTitle, newsAuthor, publishedAt}) => {
+  ({imageUri, newsSite, newsTitle, newsAuthor, publishedAt, onPress}) => {
     const {styles} = useStyles();
 
     const date = useMemo(() => utcToDateString(publishedAt), [publishedAt]);
 
     return (
-      <View style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={onPress}>
         <FastImage
           style={styles.image}
           source={{
@@ -58,7 +59,7 @@ const NewsListItem: React.FC<NewsListItemProps> = React.memo(
             )}
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   },
 );

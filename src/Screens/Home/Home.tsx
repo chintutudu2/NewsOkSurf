@@ -7,6 +7,7 @@ import {useAppStore} from '../../Zustand/Store';
 import {getArticlesApi} from '../../API/Actions/News/News';
 import {FlashList} from '@shopify/flash-list';
 import {SPACING} from '../../Constants/Spacing/Spacing';
+import {push} from '../../Helpers/NavigationHelper';
 
 interface HomeProps {}
 
@@ -46,6 +47,19 @@ const Home: React.FC<HomeProps> = React.memo(() => {
             newsTitle={item?.title}
             newsAuthor={item?.authors[0]?.name}
             publishedAt={item?.published_at}
+            onPress={() =>
+              push('NewsOverview', {
+                id: item?.id,
+                title: item?.title,
+                authors: item?.authors,
+                url: item?.url,
+                image_url: item?.image_url,
+                news_site: item?.news_site,
+                summary: item?.summary,
+                published_at: item?.published_at,
+                updated_at: item?.updated_at,
+              })
+            }
           />
         )}
         contentContainerStyle={styles.flashlistContainerStyle}

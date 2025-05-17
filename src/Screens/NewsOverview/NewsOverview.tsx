@@ -8,24 +8,19 @@ import {SPACING} from '../../Constants/Spacing/Spacing';
 import {utcToDateString, utcToDateTimeString} from '../../Helpers/DateHelper';
 import ChipTag from '../../Components/Common/Chip/ChipTag';
 import LinearGradientContainer from '../../Components/Common/Gradient/LinearGradientContainer';
+import {RouteProp} from '@react-navigation/native';
+import {AppStackNavigationParamList} from '../../Navigation/@types/AppStackNavigationParamList';
 
-interface NewsOverviewProps {
-  id: number;
-  title: string;
-  authors: {
-    name: string;
-    socials: string;
-  }[];
-  url: string;
-  image_url: string;
-  news_site: string;
-  summary: string;
-  published_at: string;
-  updated_at: string;
-}
+type NewsOverviewRouteProp = RouteProp<
+  AppStackNavigationParamList,
+  'NewsOverview'
+>;
+type Props = {
+  route: NewsOverviewRouteProp;
+};
 
-const NewsOverview: React.FC<NewsOverviewProps> = React.memo(
-  ({
+const NewsOverview: React.FC<Props> = React.memo(({route}: Props) => {
+  const {
     id,
     title,
     authors,
@@ -35,77 +30,74 @@ const NewsOverview: React.FC<NewsOverviewProps> = React.memo(
     summary,
     published_at,
     updated_at,
-  }) => {
-    const {styles} = useStyles();
+  } = route.params;
 
-    if (!id) {
-      return;
-    }
+  const {styles} = useStyles();
 
-    const newsAuthor = authors[0]?.name;
-    const date = useMemo(() => utcToDateString(published_at), [published_at]);
-    const dateTime = useMemo(
-      () => utcToDateTimeString(updated_at),
-      [updated_at],
-    );
+  if (!id) {
+    return;
+  }
 
-    return (
-      <SafeAreaView style={styles.container} edges={['left', 'right']}>
-        <View style={styles.imageContainer}>
-          <FastImage
-            style={styles.image}
-            source={{
-              uri: image_url,
-              priority: FastImage.priority.high,
-            }}
-            resizeMode={FastImage.resizeMode.cover}
-          />
-          <LinearGradientContainer colors1="black0" colors2="black60">
-            <View style={styles.headingContainer}>
-              <ChipTag text={news_site} />
-              <AppText variant="titleLarge" color="white" numberOfLines={3}>
-                {title}
-              </AppText>
-              <View style={styles.subHeadingContainer}>
-                {newsAuthor && (
-                  <AppText variant="regular" color="white">
-                    {newsAuthor}
-                  </AppText>
-                )}
-                {newsAuthor && date && (
-                  <AppText variant="regular" color="white">
-                    •
-                  </AppText>
-                )}
-                {date && (
-                  <AppText variant="regular" color="white">
-                    {date}
-                  </AppText>
-                )}
-              </View>
-            </View>
-            <View style={styles.emptyContainer} />
-          </LinearGradientContainer>
-        </View>
-        <View style={styles.content}>
-          <View style={styles.updatedAtContainer}>
-            <AppText variant="light" color="outline">
-              Updated at
+  const newsAuthor = authors[0]?.name;
+  const date = useMemo(() => utcToDateString(published_at), [published_at]);
+  const dateTime = useMemo(() => utcToDateTimeString(updated_at), [updated_at]);
+
+  return (
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
+      <View style={styles.imageContainer}>
+        <FastImage
+          style={styles.image}
+          source={{
+            uri: image_url,
+            priority: FastImage.priority.high,
+          }}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+        <LinearGradientContainer colors1="black0" colors2="black60">
+          <View style={styles.headingContainer}>
+            <ChipTag text={news_site} />
+            <AppText variant="titleLarge" color="white" numberOfLines={3}>
+              {title}
             </AppText>
-            {dateTime && (
-              <AppText variant="light" color="outline">
-                {dateTime}
-              </AppText>
-            )}
+            <View style={styles.subHeadingContainer}>
+              {newsAuthor && (
+                <AppText variant="regular" color="white">
+                  {newsAuthor}
+                </AppText>
+              )}
+              {newsAuthor && date && (
+                <AppText variant="regular" color="white">
+                  •
+                </AppText>
+              )}
+              {date && (
+                <AppText variant="regular" color="white">
+                  {date}
+                </AppText>
+              )}
+            </View>
           </View>
-          <AppText color="black" variant="regular">
-            {summary}
+          <View style={styles.emptyContainer} />
+        </LinearGradientContainer>
+      </View>
+      <View style={styles.content}>
+        <View style={styles.updatedAtContainer}>
+          <AppText variant="light" color="outline">
+            Updated at
           </AppText>
+          {dateTime && (
+            <AppText variant="light" color="outline">
+              {dateTime}
+            </AppText>
+          )}
         </View>
-      </SafeAreaView>
-    );
-  },
-);
+        <AppText color="black" variant="regular">
+          {summary}
+        </AppText>
+      </View>
+    </SafeAreaView>
+  );
+});
 
 export default NewsOverview;
 
