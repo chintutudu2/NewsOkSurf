@@ -10,6 +10,7 @@ import ChipTag from '../../Components/Common/Chip/ChipTag';
 import LinearGradientContainer from '../../Components/Common/Gradient/LinearGradientContainer';
 import {RouteProp} from '@react-navigation/native';
 import {AppStackNavigationParamList} from '../../Navigation/@types/AppStackNavigationParamList';
+import AppHeader from '../../Components/Common/Header/AppHeader';
 
 type NewsOverviewRouteProp = RouteProp<
   AppStackNavigationParamList,
@@ -44,6 +45,7 @@ const NewsOverview: React.FC<Props> = React.memo(({route}: Props) => {
 
   return (
     <SafeAreaView style={styles.container} edges={['left', 'right']}>
+      <AppHeader isFloating hasBack />
       <View style={styles.imageContainer}>
         <FastImage
           style={styles.image}
@@ -119,7 +121,7 @@ const useStyles = () => {
       height: '100%',
     },
     headingContainer: {
-      paddingHorizontal: SPACING.X8,
+      paddingHorizontal: SPACING.X4,
       paddingBottom: SPACING.X10,
       paddingTop: SPACING.X20,
       gap: SPACING.X4,
@@ -135,7 +137,7 @@ const useStyles = () => {
       top: '-5%',
       borderTopRightRadius: SPACING.X6,
       borderTopLeftRadius: SPACING.X6,
-      paddingHorizontal: SPACING.X8,
+      paddingHorizontal: SPACING.X4,
       paddingVertical: SPACING.X8,
     },
     emptyContainer: {

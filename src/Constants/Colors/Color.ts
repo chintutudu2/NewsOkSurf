@@ -1,5 +1,6 @@
 const lightThemeColors = {
   white: '#FFFFFF',
+  white30: '#FFFFFF4D',
   black: '#000000',
   black60: '#00000099',
   black0: '#00000000',
