@@ -50,17 +50,19 @@ const useStyles = ({isFloating}: {isFloating: boolean}) => {
     rightEmptyContainer: {
       width: SPACING.X12,
     },
-    shadow: {
-      backgroundColor: COLORS.white,
-      shadowColor: COLORS.black,
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.2,
-      shadowRadius: 1.5,
-      elevation: 5,
-    },
+    shadow: isFloating
+      ? {}
+      : {
+          backgroundColor: COLORS.white,
+          shadowColor: COLORS.black,
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.2,
+          shadowRadius: 1.5,
+          elevation: 5,
+        },
   });
   return {styles};
 };
