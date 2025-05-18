@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useTheme from '../../Hooks/useTheme';
@@ -8,10 +8,9 @@ import {getArticlesApi} from '../../API/Actions/News/News';
 import {FlashList} from '@shopify/flash-list';
 import {SPACING} from '../../Constants/Spacing/Spacing';
 import {push} from '../../Helpers/NavigationHelper';
+import AppHeader from '../../Components/Common/Header/AppHeader';
 
-interface HomeProps {}
-
-const Home: React.FC<HomeProps> = React.memo(() => {
+const OkSurfHome: React.FC = React.memo(() => {
   const {styles, DIMENSIONS} = useStyles();
 
   const articles = useAppStore(state => state.articles);
@@ -38,6 +37,7 @@ const Home: React.FC<HomeProps> = React.memo(() => {
 
   return (
     <SafeAreaView style={styles.container} edges={['left', 'right', 'top']}>
+      <AppHeader hasMenu title="OkSurf" />
       <FlashList
         data={articles}
         renderItem={({item}) => (
@@ -75,17 +75,19 @@ const Home: React.FC<HomeProps> = React.memo(() => {
   );
 });
 
-export default Home;
+export default OkSurfHome;
 
 const useStyles = () => {
-  const {DIMENSIONS} = useTheme();
+  const {DIMENSIONS, COLORS} = useTheme();
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor: COLORS.white,
     },
     flashlistContainerStyle: {
       paddingHorizontal: SPACING.X4,
+      paddingTop: SPACING.X4,
     },
   });
   return {styles, DIMENSIONS};

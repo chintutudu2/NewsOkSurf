@@ -1,5 +1,5 @@
 export type AppStackNavigationParamList = {
-  Home: undefined;
+  SpaceFlightHome: undefined;
   NewsOverview: {
     id: number;
     title: string;

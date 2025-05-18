@@ -19,6 +19,10 @@ const TYPOGRAPHY = {
     fontFamily: FONT.medium,
     fontSize: 14,
   },
+  title: {
+    fontFamily: FONT.medium,
+    fontSize: 18,
+  },
   titleLarge: {
     fontFamily: FONT.medium,
     fontSize: 26,

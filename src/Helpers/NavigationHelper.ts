@@ -1,4 +1,5 @@
 import {
+  DrawerActions,
   RouteProp,
   StackActions,
   createNavigationContainerRef,
@@ -38,6 +39,30 @@ export function navigate(name: never, params: never) {
   if (navigationRef.isReady()) {
     // @ts-ignore
     navigationRef.navigate(name, params);
+  }
+}
+
+export function openDrawer() {
+  if (navigationRef.isReady()) {
+    navigationRef.dispatch(DrawerActions.openDrawer());
+  }
+}
+
+export function toggleDrawer() {
+  if (navigationRef.isReady()) {
+    navigationRef.dispatch(DrawerActions.toggleDrawer());
+  }
+}
+
+export function closeDrawer() {
+  if (navigationRef.isReady()) {
+    navigationRef.dispatch(DrawerActions.closeDrawer());
+  }
+}
+
+export function drawerJumpTo(name: string, params?: object) {
+  if (navigationRef.isReady()) {
+    navigationRef.dispatch(DrawerActions.jumpTo(name, params));
   }
 }
 
